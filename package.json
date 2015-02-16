@@ -1,0 +1,23 @@
+{
+  "name": "pasm.js",
+  "version": "0.0.1",
+  "description": "A parser for the assembly language of the Propeller MCU from Parallax Inc.",
+  "main": "pasm.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ZiCog/pasm.js.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ZiCog/pasm.js/issues"
+  },
+  "homepage": "https://github.com/ZiCog/pasm.js",
+  "dependencies": {
+    "pegjs": "^0.8.0"
+  }
+}
