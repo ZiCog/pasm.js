@@ -14,7 +14,8 @@ function testParser (s) {
     try {
         j = parser.parse(s);
         console.log("Parse OK");
-        console.log(j);
+        console.log(typeof j);
+        console.log(JSON.stringify(j, null, '  '));
     } catch (e) {
         console.log("Ooops...syntax error");
         console.log(e.message);
