@@ -17,7 +17,7 @@ init            neg phsa, #1
 
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
-syn_c            waitcnt syncCNT, m_baudRate
+syn_c           waitcnt syncCNT, m_baudRate
                 jmpret syncPC, rxPC
                 waitcnt syncCNT, m_baudRate
                 jmpret syncPC, rxPC

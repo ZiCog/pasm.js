@@ -183,46 +183,160 @@ effectEntry
       return e
     }
 
-effect
-  = "wc"i
-  / "wr"i
-  / "wz"i
-  / "nr"i
-
-op0
-  = "nop"i
-
-op1
-  = "jmp"i
-
-op2
-  = "add"i
-  / "sub"i
-  / "jmpret"i
-  / "test"i
-  / "mov"i
-  / "rcr"i
-  / "djnz"i
-  / "shr"i
-  / "rdlong"i
-  / "rdbyte"i
-  / "neg"i
-  / "and"i
-  / "cmp"i
-  / "wrbyte"i
-  / "wrlong"i
-  / "waitcnt"i
-  / "tjz"i
-  / "or"i
-  / "ror"i
-
 white
   = [ ]+
     {
       return "WHITESPACE"
     }
 
-condition
-  = "if_e"i
-  / "if_ne"i
+predefined
+  = "TRUE"i
+  / "FALSE"i
+  / "POSX"i
+  / "NEGX"i
+  / "PI"i
+  / "DIRA"i
+  / "DIRB"i
+  / "INA"i
+  / "INB"i
+  / "OUTA"i
+  / "OUTB"i
+  / "CNT"i
+  / "CTRA"i
+  / "CTRB"i
+  / "FRQA"i
+  / "FRQB"i
+  / "PHSA"i
+  / "PHSB"i
+  / "VCFG"i
+  / "VSCL"i
+  / "PAR"i
 
+effect
+  = "NR"i
+  / "WR"i
+  / "WC"i
+  / "WZ"i
+
+condition
+  = "IF_ALWAYS"i
+  / "IF_NEVER"i
+  / "IF_E"i
+  / "IF_NE"i
+  / "IF_A"i
+  / "IF_B"i
+  / "IF_AE"i
+  / "IF_BE"i
+  / "IF_C"i
+  / "IF_NC"i
+  / "IF_Z"i
+  / "IF_NZ"i
+  / "IF_C_EQ_Z"i
+  / "IF_C_NE_Z"i
+  / "IF_C_AND_Z"i
+  / "IF_C_AND_NZ"i
+  / "IF_NC_AND_Z"i
+  / "IF_NC_AND_NZ"i
+  / "IF_C_OR_Z"i
+  / "IF_C_OR_NZ"i
+  / "IF_NC_OR_Z"i
+  / "IF_NC_OR_NZ"i
+  / "IF_Z_EQ_C"i
+  / "IF_Z_NE_C"i
+  / "IF_Z_AND_C"i
+  / "IF_Z_AND_NC"i
+  / "IF_NZ_AND_C"i
+  / "IF_NZ_AND_NC"i
+  / "IF_Z_OR_C"i
+  / "IF_Z_OR_NC"i
+  / "IF_NZ_OR_C"i
+  / "IF_NZ_OR_NC"i
+
+op0
+  = "NOP"i
+  / "RET"i
+
+op1
+  = "CALL"i
+  / "JMP"i
+
+op2
+  = "JMPRET"i
+  / "TJNZ"i
+  / "TJZ"i
+  / "DJNZ"i
+  / "RDBYTE"i
+  / "RDWORD"i
+  / "RDLONG"i
+  / "WRBYTE"i
+  / "WRWORD"i
+  / "WRLONG"i
+  / "ABS"i
+  / "ABSNEG"i
+  / "NEG"i
+  / "NEGC"i
+  / "NEGNC"i
+  / "NEGZ"i
+  / "NEGNZ"i
+  / "MIN"i
+  / "MINS"i
+  / "MAX"i
+  / "MAXS"i
+  / "ADD"i
+  / "ADDABS"i
+  / "ADDS"i
+  / "ADDX"i
+  / "ADDSX"i
+  / "SUB"i
+  / "SUBABS"i
+  / "SUBS"i
+  / "SUBX"i
+  / "SUBSX"i
+  / "SUMC"i
+  / "SUMNC"i
+  / "SUMZ"i
+  / "SUMNZ"i
+  / "MUL"i
+  / "MULS"i
+  / "AND"i
+  / "ANDN"i
+  / "OR"i
+  / "XOR"i
+  / "ONES"i
+  / "ENC"i
+  / "RCL"i
+  / "RCR"i
+  / "REV"i
+  / "ROL"i
+  / "ROR"i
+  / "SHL"i
+  / "SHR"i
+  / "SAR"i
+  / "CMP"i
+  / "CMPS"i
+  / "CMPX"i
+  / "CMPSX"i
+  / "CMPSUB"i
+  / "TEST"i
+  / "TESTN"i
+  / "MOV"i
+  / "MOVS"i
+  / "MOVD"i
+  / "MOVI"i
+  / "MUXC"i
+  / "MUXNC"i
+  / "MUXZ"i
+  / "MUXNZ"i
+  / "HUBOP"i
+  / "CLKSET"i
+  / "COGID"i
+  / "COGINIT"i
+  / "COGSTOP"i
+  / "LOCKNEW"i
+  / "LOCKRET"i
+  / "LOCKCLR"i
+  / "LOCKSET"i
+  / "WAITCNT"i
+  / "WAITPEQ"i
+  / "WAITPNE"i
+  / "WAITVID"i
