@@ -108,3 +108,5 @@ txLoop2         or phsa, #$100
 
                 jmp #txBegin
 
+                fit
+

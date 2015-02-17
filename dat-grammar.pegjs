@@ -78,11 +78,11 @@ pasmStatement
 fit
   = "fit"i white e:expression
     {
-      return {org: e}
+      return {fit: e}
     }
     / "fit"i
     {
-      return {org: 0}
+      return {fit: 496}
     }
 
 org
