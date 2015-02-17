@@ -3,6 +3,10 @@ A parser for the assembly language used by the Propeller micro-controller from P
 
 This is basically my experiment in using peg.js to create a parser for PASM. It may one day blossom into a real code code generating assembler but I would not count on it.
 
+Read about pegjs here http://pegjs.org.
+
+Play with the grammar generator online here http://pegjs.org/online 
+
 
 How to play with this
 ---------------------
@@ -26,6 +30,8 @@ Run the pasm parser:
 Currently this will read content of test.spin and dump the resulting AST to the console.
 
 Whilst test.spin is a genuine sample of pasm source taken from a serial port driver and it is parsed successfully this parser is by no means complete yet.
+
+
  
 
 
