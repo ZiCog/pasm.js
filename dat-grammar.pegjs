@@ -110,11 +110,11 @@ label
 instruction
   = o:op0 e:effectList
     {
-      return {operation:o, effects:e}
+      return {operation:o, dest:null, src:null, effects:e}
     }
   / o:op1 white s:src e:effectList 
     {
-      return {operation:o, src:s, efects:e}
+      return {operation:o, dest:null, src:s, efects:e}
     }
   / o:op2 white? d:dest white? "," white? s:src e:effectList
     {
@@ -122,16 +122,21 @@ instruction
     }
 
 src
-  = l:"#"? [ ]* s:symbol
+  = l:literal [ ]* a:addressExpression
     {
-      return {literal:l, value: s}
+      return {literal:l, value: a};
     }
-  / l:"#"? [ ]* n:number
+
+literal
+  = l:"#"?
     {
-      return {literal:l, value: n}
+      return l === null ? false : true;
     }
 
 dest
+  = addressExpression
+
+addressExpression
   = symbol
   / number
 
