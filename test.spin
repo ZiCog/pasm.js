@@ -31,7 +31,7 @@ syn_c            waitcnt syncCNT, m_baudRate
 '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 
                 ' Start Bit
-_
+
 rxLoop          jmpret rxPC, syncPC
 rxBegin         test m_rxPin, ina wc
 if_c            jmp #rxLoop
