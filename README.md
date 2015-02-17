@@ -25,7 +25,7 @@ Run the pasm parser:
 
 Currently this will read content of test.spin and dump the resulting AST to the console.
 
-Whilst test.spin is a genuine sample of pasm source taken from a serial port driver and it is parsed successfully this parse is by no means complete yet.
+Whilst test.spin is a genuine sample of pasm source taken from a serial port driver and it is parsed successfully this parser is by no means complete yet.
  
 
 
