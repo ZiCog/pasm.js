@@ -345,3 +345,47 @@ op2
   / "WAITPEQ"i
   / "WAITPNE"i
   / "WAITVID"i
+
+
+constantExpression
+  = l:multiplicative "+"  r:constantExpression
+    {
+      return {operator:"+", left:l, right:r}
+    }
+  / l:multiplicative "-"  r:expression
+    {
+      return {operator:"-", left:l, right:r}
+    }
+  / multiplicative
+
+multiplicative
+  = l:logitive "*" r:multiplicative
+    {
+      return {operator:"*", left:l, right:r}
+    }
+  / l:logitive "/" r:multiplicative
+    {
+      return {operator:"/", left:l, right:r}
+    }
+  / logitive
+
+logitive
+  = l:primary "|" r:logitive
+    {
+      return {operator:"|", left:l, right:r}
+    }
+  / primary
+
+primary
+  = integer
+  / "(" e:constantExpression ")"
+    {
+      return e;
+    }
+
+integer "integer"
+  = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
+
+
+
+
