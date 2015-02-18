@@ -348,44 +348,87 @@ op2
 
 
 constantExpression
-  = l:multiplicative "+"  r:constantExpression
-    {
-      return {operator:"+", left:l, right:r}
-    }
-  / l:multiplicative "-"  r:expression
-    {
-      return {operator:"-", left:l, right:r}
-    }
-  / multiplicative
+  = level11
 
-multiplicative
-  = l:logitive "*" r:multiplicative
+level11
+  = l:level10 o:"OR"  r:level11
     {
-      return {operator:"*", left:l, right:r}
+      return {operator:o, left:l, right:r}
     }
-  / l:logitive "/" r:multiplicative
-    {
-      return {operator:"/", left:l, right:r}
-    }
-  / logitive
+  / level10
 
-logitive
-  = l:primary "|" r:logitive
+level10
+  = l:level9 o:"AND"  r:level10
     {
-      return {operator:"|", left:l, right:r}
+      return {operator:o, left:l, right:r}
+    }
+  / level9
+
+level9
+  /* TODO: */
+  = level8
+
+level8
+  = l:level7 o:("<" / ">" / "<>" / "==" / "=<" / ">")  r:level8
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level7
+
+level7
+  = l:level6 o:("#>" / "<#")  r:level7
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level6
+
+level6
+  = l:level5 o:[+-]  r:level6
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level5
+
+level5
+  = l:level4 o:[*/] r:level5
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level4
+
+level4
+  = l:level3 o:[|^] r:level4
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level3
+
+level3
+  = l:level2 o:"&" r:level3
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level2
+
+level2
+  = l:primary o:("->" / "<-" / ">>" / "<<" / "~>" / "><")
+  r:level2
+    {
+      return {operator:o, left:l, right:r}
     }
   / primary
 
 primary
-  = integer
-  / "(" e:constantExpression ")"
+  = [ ]* i:integer [ ]*
+    {
+      return i;
+    }
+  / [ ]* "(" e:level11 ")" [ ]*
     {
       return e;
     }
 
 integer "integer"
   = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
-
-
 
 
