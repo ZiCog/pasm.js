@@ -369,14 +369,14 @@ level9
   = level8
 
 level8
-  = l:level7 o:("<" / ">" / "<>" / "==" / "=<" / ">")  r:level8
+  = l:level7 o:("<" / ">" / "<>" / "==" / "=<" / ">") r:level8
     {
       return {operator:o, left:l, right:r}
     }
   / level7
 
 level7
-  = l:level6 o:("#>" / "<#")  r:level7
+  = l:level6 o:("#>" / "<#") r:level7
     {
       return {operator:o, left:l, right:r}
     }
@@ -411,8 +411,7 @@ level3
   / level2
 
 level2
-  = l:primary o:("->" / "<-" / ">>" / "<<" / "~>" / "><")
-  r:level2
+  = l:primary o:("->" / "<-" / ">>" / "<<" / "~>" / "><") r:level2
     {
       return {operator:o, left:l, right:r}
     }
