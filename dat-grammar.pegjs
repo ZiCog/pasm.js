@@ -351,14 +351,14 @@ constantExpression
   = level11
 
 level11
-  = l:level10 o:"OR"  r:level11
+  = l:level10 o:"OR"i  r:level11
     {
       return {operator:o, left:l, right:r}
     }
   / level10
 
 level10
-  = l:level9 o:"AND"  r:level10
+  = l:level9 o:"AND"i r:level10
     {
       return {operator:o, left:l, right:r}
     }
