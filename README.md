@@ -21,7 +21,9 @@ In the pasm.js directory install pegjs locally to get the module (This is not us
 
 The parser can be regenerated from the grammar with pegjs:
 
-    $ pegjs dat-grammar.pegjs dat-parser.js
+    $ pegjs --cache dat-grammar.pegjs dat-parser.js
+
+Note: The cache option is very important. Without it bracketed sub expressions can take forever to parse. 
 
 Run the pasm parser:
 

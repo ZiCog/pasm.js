@@ -114,5 +114,5 @@ txLoop2         or phsa, #$100
 
                 fit %11 + 9 
 
-                org 1 + 2  
+                org 1 + ((((1)))) + 1  
 

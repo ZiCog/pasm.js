@@ -216,26 +216,12 @@ level2
     {
       return {operator:o, left:l, right:r}
     }
-  / primaryNoBrackets
+  / primary
 
-/* Note: We use currently use NoBrackets as bracketed expressions are REALLY slow! */ 
-primaryNoBrackets
-  = [ ]* i:number [ ]*
-    {
-      return i;
-    }
-
-/* Note: Will use bracketed expressions if we ever figure out how to make it perform */
 primary
   = [ ]* i:number [ ]*
     {
       return i;
-    }
-  / [ ]* "(" [ ]*  ")" [ ]*         /* FIXME: This a horrible hack to
-                                     *  stop endless recursion when braces are emty
-                                     */
-    &{
-        return false;
     }
   / [ ]* "(" e:level11  ")" [ ]* 
     {
@@ -243,7 +229,7 @@ primary
     }
 
 number
-  = QuaternaryNumber
+  = quaternaryNumber
   / binaryNumber
   / hexNumber
   / decimalNumber
@@ -255,7 +241,7 @@ binaryNumber
       return parseInt(d.join(""), 2);
     }
 
-QuaternaryNumber
+quaternaryNumber
   = "%%" d:[0-3]+
     {
       return parseInt(d.join(""), 4);
