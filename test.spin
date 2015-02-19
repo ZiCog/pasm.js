@@ -105,14 +105,14 @@ txLoop2         or phsa, #$100
                 jmpret txPC, syncPC
                 ror phsa, #1
                 djnz txTemp2 + 3, #txLoop2
-                djnz 1 + 2 , #txLoop2
+                djnz 1+2 , #txLoop2
                 djnz $32, #txLoop2
 
-                jmp #txBegin + 2
+                jmp #txBegin+2
 
                 nop
 
-                fit (%11 + 9) 
+                fit %11 + 9 
 
-                org 2*((2)) 
+                org 1 + 2  
 

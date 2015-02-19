@@ -149,7 +149,7 @@ white
     }
 
 constantExpression
-  = level7               /* NOTE: We don't use levels 8 to 11 as something is broke their */ 
+  = level11 
 
 level11
   = l:level10 o:"OR"i  r:level11
@@ -216,8 +216,16 @@ level2
     {
       return {operator:o, left:l, right:r}
     }
-  / primary
+  / primaryNoBrackets
 
+/* Note: We use currently use NoBrackets as bracketed expressions are REALLY slow! */ 
+primaryNoBrackets
+  = [ ]* i:number [ ]*
+    {
+      return i;
+    }
+
+/* Note: Will use bracketed expressions if we ever figure out how to make it perform */
 primary
   = [ ]* i:number [ ]*
     {
@@ -229,7 +237,7 @@ primary
     &{
         return false;
     }
-  / [ ]* "(" e:level7  ")" [ ]*  /* NOTE: We don't use levels 8 to 11 as something is broke their */ 
+  / [ ]* "(" e:level11  ")" [ ]* 
     {
       return e;
     }
