@@ -76,7 +76,7 @@ pasmStatement
     }
   
 fit
-  = "fit"i white e:expression
+  = "fit"i white e:constantExpression
     {
       return {fit: e}
     }
@@ -86,7 +86,7 @@ fit
     }
 
 org
-  = "org"i white e:expression
+  = "org"i white e:constantExpression
     {
       return {org: e}
     }
@@ -95,16 +95,13 @@ org
       return {org: 0}
     }
 
-expression
-  = number
-
 label
-  = l:[a-zA-Z0-9_]+
+  = l0:[a-zA-Z_] l:[a-zA-Z0-9_]* 
     !{
-      return isKeyword(l.join(""));
+      return isKeyword(l0 + l.join(""));
     }
     {
-      return l.join("");
+      return l0 + l.join("");
     }
 
 instruction
@@ -122,7 +119,7 @@ instruction
     }
 
 src
-  = l:literal [ ]* a:addressExpression
+  = l:literal [ ]* a:constantExpression
     {
       return {literal:l, value: a};
     }
@@ -134,50 +131,7 @@ literal
     }
 
 dest
-  = addressExpression
-
-addressExpression
-  = symbol
-  / number
-
-number
-  = QuaternaryNumber
-  / binaryNumber
-  / hexNumber
-  / decimalNumber
-
-binaryNumber
-  = "%" d:[0-1]*
-    {
-      return parseInt(d.join(""), 2);
-    }
-
-QuaternaryNumber
-  = "%%" d:[0-3]+
-    {
-      return parseInt(d.join(""), 4);
-    }
-
-decimalNumber
-  = d:[0-9]*
-    {
-      return parseInt(d.join(""), 10);
-    }
-
-hexNumber
-  = "$" d:[0-9a-fA-F]*
-    {
-      return parseInt(d.join(""), 16);
-    }
-
-symbol
-  = first:[a-zA-Z_] rest:[a-zA-Z_0-9]*
-    !{
-      return isKeyword(first + rest.join(""));
-    }
-    {
-      return first + rest.join("");
-    }
+  = constantExpression
 
 effectList
   = effectEntry*
@@ -192,6 +146,135 @@ white
   = [ ]+
     {
       return "WHITESPACE"
+    }
+
+constantExpression
+  = level11
+
+level11
+  = l:level10 o:"OR"i  r:level11
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level10
+
+level10
+  = l:level9 o:"AND"i r:level10
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level9
+
+level9
+  /* TODO: */
+  = level8
+
+level8
+  = l:level7 o:("<" / ">" / "<>" / "==" / "=<" / ">") r:level8
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level7
+
+level7
+  = l:level6 o:("#>" / "<#") r:level7
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level6
+
+level6
+  = l:level5 o:[+-]  r:level6
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level5
+
+level5
+  = l:level4 o:[*/] r:level5
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level4
+
+level4
+  = l:level3 o:[|^] r:level4
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level3
+
+level3
+  = l:level2 o:"&" r:level3
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / level2
+
+level2
+  = l:primary o:("->" / "<-" / ">>" / "<<" / "~>" / "><") r:level2
+    {
+      return {operator:o, left:l, right:r}
+    }
+  / primary
+
+primary
+  = [ ]* i:number [ ]*
+    {
+      return i;
+    }
+  / [ ]* s:symbol [ ]*
+    {
+      return s;
+    }
+  / [ ]* "(" [ ]*  ")" [ ]*         /* FIXME: This a horrible hack to
+                                     *  stop endless recursion when braces are emty
+                                     */
+    &{
+        return false;
+    }
+  / [ ]* "(" e:level11  ")" [ ]*
+    {
+      return e;
+    }
+
+number
+  = QuaternaryNumber
+  / binaryNumber
+  / hexNumber
+  / decimalNumber
+
+binaryNumber
+  = "%" d:[0-1]+
+    {
+      return parseInt(d.join(""), 2);
+    }
+
+QuaternaryNumber
+  = "%%" d:[0-3]+
+    {
+      return parseInt(d.join(""), 4);
+    }
+
+decimalNumber
+  = d:[0-9]+
+    {
+      return parseInt(d.join(""), 10);
+    }
+
+hexNumber
+  = "$" d:[0-9a-fA-F]+
+    {
+      return parseInt(d.join(""), 16);
+    }
+
+symbol
+  = first:[a-zA-Z_] rest:[a-zA-Z_0-9]*
+    !{
+      return isKeyword(first + rest.join(""));
+    }
+    {
+      return first + rest.join("");
     }
 
 predefined
@@ -345,89 +428,3 @@ op2
   / "WAITPEQ"i
   / "WAITPNE"i
   / "WAITVID"i
-
-
-constantExpression
-  = level11
-
-level11
-  = l:level10 o:"OR"i  r:level11
-    {
-      return {operator:o, left:l, right:r}
-    }
-  / level10
-
-level10
-  = l:level9 o:"AND"i r:level10
-    {
-      return {operator:o, left:l, right:r}
-    }
-  / level9
-
-level9
-  /* TODO: */
-  = level8
-
-level8
-  = l:level7 o:("<" / ">" / "<>" / "==" / "=<" / ">") r:level8
-    {
-      return {operator:o, left:l, right:r}
-    }
-  / level7
-
-level7
-  = l:level6 o:("#>" / "<#") r:level7
-    {
-      return {operator:o, left:l, right:r}
-    }
-  / level6
-
-level6
-  = l:level5 o:[+-]  r:level6
-    {
-      return {operator:o, left:l, right:r}
-    }
-  / level5
-
-level5
-  = l:level4 o:[*/] r:level5
-    {
-      return {operator:o, left:l, right:r}
-    }
-  / level4
-
-level4
-  = l:level3 o:[|^] r:level4
-    {
-      return {operator:o, left:l, right:r}
-    }
-  / level3
-
-level3
-  = l:level2 o:"&" r:level3
-    {
-      return {operator:o, left:l, right:r}
-    }
-  / level2
-
-level2
-  = l:primary o:("->" / "<-" / ">>" / "<<" / "~>" / "><") r:level2
-    {
-      return {operator:o, left:l, right:r}
-    }
-  / primary
-
-primary
-  = [ ]* i:integer [ ]*
-    {
-      return i;
-    }
-  / [ ]* "(" e:level11 ")" [ ]*
-    {
-      return e;
-    }
-
-integer "integer"
-  = digits:[0-9]+ { return parseInt(digits.join(""), 10); }
-
-

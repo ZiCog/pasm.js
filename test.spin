@@ -104,9 +104,15 @@ if_z            jmpret txPC, syncPC
 txLoop2         or phsa, #$100
                 jmpret txPC, syncPC
                 ror phsa, #1
-                djnz txTemp2, #txLoop2
+                djnz txTemp2 + 3, #txLoop2
+                djnz 1 + 2 , #txLoop2
+                djnz $32, #txLoop2
 
-                jmp #txBegin
+                jmp #txBegin + 2
 
-                fit
+                nop
+
+                fit (%11 + 9) 
+
+                org (0)
 
