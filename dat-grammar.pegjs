@@ -170,7 +170,7 @@ level9
   = level8
 
 level8
-  = l:level7 o:("<" / ">" / "<>" / "==" / "=<" / ">") r:level8
+  = l:level7 o:("<" / ">" / "<>" / "==" / "=<" / ">=") r:level8
     {
       return {operator:o, left:l, right:r}
     }
