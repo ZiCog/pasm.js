@@ -114,5 +114,5 @@ txLoop2         or phsa, #$100
 
                 fit (%11 + 9) 
 
-                org (0)
+                org 2*((2)) 
 

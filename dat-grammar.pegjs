@@ -149,7 +149,7 @@ white
     }
 
 constantExpression
-  = level6               /* NOTE: We don't use levels 11 to 7 as something is broke their */ 
+  = level7               /* NOTE: We don't use levels 8 to 11 as something is broke their */ 
 
 level11
   = l:level10 o:"OR"i  r:level11
@@ -229,7 +229,7 @@ primary
     &{
         return false;
     }
-  / [ ]* "(" e:level6  ")" [ ]*  /* NOTE: We don't use levels 11 to 7 as something is broke their */ 
+  / [ ]* "(" e:level7  ")" [ ]*  /* NOTE: We don't use levels 8 to 11 as something is broke their */ 
     {
       return e;
     }
