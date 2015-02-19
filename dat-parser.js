@@ -46,7 +46,7 @@ module.exports = (function() {
               return {dat_block: true}
             },
         peg$c9 = function() {
-              return {bankLine: true};
+              return {blankLine: true};
             },
         peg$c10 = "'",
         peg$c11 = { type: "literal", value: "'", description: "\"'\"" },

@@ -36,11 +36,11 @@ nonBlankLine
 blankLine
   = white* "\n"
     {
-      return {bankLine: true};
+      return {blankLine: true};
     }
   / white+
     {
-      return {bankLine: true};
+      return {blankLine: true};
     }
   / white* "'" c:[a-zA-Z0-9/ ']*  "\n"
     {
