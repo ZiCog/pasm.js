@@ -149,7 +149,7 @@ white
     }
 
 constantExpression
-  = level11
+  = level6               /* NOTE: We don't use levels 11 to 7 as something is broke their */ 
 
 level11
   = l:level10 o:"OR"i  r:level11
@@ -223,17 +223,13 @@ primary
     {
       return i;
     }
-  / [ ]* s:symbol [ ]*
-    {
-      return s;
-    }
   / [ ]* "(" [ ]*  ")" [ ]*         /* FIXME: This a horrible hack to
                                      *  stop endless recursion when braces are emty
                                      */
     &{
         return false;
     }
-  / [ ]* "(" e:level11  ")" [ ]*
+  / [ ]* "(" e:level6  ")" [ ]*  /* NOTE: We don't use levels 11 to 7 as something is broke their */ 
     {
       return e;
     }
@@ -243,6 +239,7 @@ number
   / binaryNumber
   / hexNumber
   / decimalNumber
+  / symbol
 
 binaryNumber
   = "%" d:[0-1]+
