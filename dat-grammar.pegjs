@@ -111,11 +111,11 @@ instruction
     }
   / o:op1 white s:src e:effectList 
     {
-      return {operation:o, dest:null, src:s, efects:e}
+      return {operation:o, dest:null, src:s, effects:e}
     }
   / o:op2 white? d:dest white? "," white? s:src e:effectList
     {
-      return {operation:o, dest:d, src:s, efects:e}
+      return {operation:o, dest:d, src:s, effects:e}
     }
 
 src
@@ -134,10 +134,18 @@ dest
   = constantExpression
 
 effectList
-  = effectEntry*
+  = e:effect o:nextEffect+
+  {
+    o.push(e);
+    return o;
+  }
+  / e:effect?
+  {
+    return [e];
+  }
 
-effectEntry
-  = white e:effect
+nextEffect
+  = white* "," white* e:effect
     {
       return e
     }
