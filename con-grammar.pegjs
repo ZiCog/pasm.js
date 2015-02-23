@@ -20,7 +20,7 @@
 
 
 start
-  = (CONAssignments / CONEnumerations)*
+  = (CONBlank / CONAssignments / CONEnumerations )*
   {
     return _output;
   }
@@ -29,6 +29,13 @@ conCON
   = c:"CON"
   {
     return true;
+  }
+
+CONBlank
+ = c:conCON white* EOL
+  {
+    _output.push({CON: c, ENUMERATIONS:null});
+    _enumList = [ ];
   }
 
 CONAssignments
@@ -53,6 +60,7 @@ CONEnumerations
       _enumList = [ ];
   }
 
+
 conEnumerations
   = "#" white* ce:constantExpression white* "," white* el:conEnumerationList EOL
   {
@@ -66,7 +74,6 @@ conEnumerations
   {
     return {enums:el};
   }
-  / EOL
 
 
 conEnumerationList 
