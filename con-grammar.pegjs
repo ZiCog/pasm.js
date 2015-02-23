@@ -17,9 +17,9 @@ start
   = (conAssignments / conEnumerations)*  
 
 conAssignments
-  = "CON"? white* constantAssignment white* "," white* conAssignmentList EOL 
-  / "CON"? white* constantAssignment EOL
-  / "CON"? white* EOL
+  = conCON? white* constantAssignment white* "," white* conAssignmentList EOL 
+  / conCON? white* constantAssignment EOL
+  / conCON? white* EOL
 
 conAssignmentList
   = constantAssignment white* "," white* conAssignmentList
@@ -29,10 +29,17 @@ constantAssignment
   = symbol white* "=" white* constantExpression
 
 conEnumerations
-  = "CON"? white* "#" white* constantExpression white* "," white* conEnumerationList EOL
-  / "CON"? white* "#" white* constantExpression EOL
-  / "CON"? white* conEnumerationList EOL
-  / "CON"? white* EOL
+  = conCON? white* "#" white* constantExpression white* "," white* conEnumerationList EOL
+  / conCON? white* "#" white* constantExpression EOL
+  / conCON? white* conEnumerationList EOL
+  / conCON? white* EOL
+
+conCON
+ = "CON"
+ {
+   return "Reset enumeration value here"
+ }
+
 
 conEnumerationList 
   = s:symbol white* o:conOffset? white* "," white* sd:conEnumerationList
