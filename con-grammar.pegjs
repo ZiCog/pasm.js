@@ -47,26 +47,26 @@ constantAssignment
   = symbol white* "=" white* constantExpression
 
 CONEnumerations
-  = c:"CON"? ce:conEnumerations
+  = c:"CON"? white* ce:conEnumerations
   {
       _output.push({CON: c, ENUMERATIONS:ce});
       _enumList = [ ];
   }
 
 conEnumerations
-  = white* "#" white* ce:constantExpression white* "," white* el:conEnumerationList EOL
+  = "#" white* ce:constantExpression white* "," white* el:conEnumerationList EOL
   {
     return {HASH: ce, enums:el};
   }
-  / white* "#" white* ce:constantExpression EOL
+  / "#" white* ce:constantExpression EOL
   {
     return {HASH: ce};
   }
-  / white* el:conEnumerationList EOL
+  / el:conEnumerationList EOL
   {
     return {enums:el};
   }
-  / white* EOL
+  / EOL
 
 
 conEnumerationList 
