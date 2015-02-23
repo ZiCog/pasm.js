@@ -32,16 +32,16 @@ conCON
   }
 
 CONBlank
- = c:conCON white* EOL
+  = c:conCON white* EOL
   {
-    _output.push({CON: c, ENUMERATIONS:null});
+    _output.push({line:line(), CON: c, ENUMERATIONS:null});
     _enumList = [ ];
   }
 
 CONAssignments
   = c:conCON? white* al:conAssignmentList EOL
   {
-    _output.push({CON:c, ASSIGMENTS: _assignmentList});
+    _output.push({line:line(), CON:c, ASSIGMENTS: _assignmentList});
    _assignmentList = [];
   }
 
@@ -52,13 +52,13 @@ conAssignmentList
 constantAssignment
   = s:symbol white* "=" white* ce:constantExpression
   {
-    _assignmentList.push({symbol: s, expression:ce});
+    _assignmentList.push({column: column(), symbol: s, expression:ce});
   }
 
 CONEnumerations
   = c:"CON"? white* ce:conEnumerations
   {
-      _output.push({CON: c, ENUMERATIONS:ce});
+      _output.push({line:line(), CON: c, ENUMERATIONS:ce});
       _enumList = [ ];
   }
 
@@ -79,12 +79,12 @@ conEnumerations
 conEnumerationList 
   = s:symbol white* o:conOffset? white* "," white* conEnumerationList
   {
-    _enumList.unshift({constant: s, offset: o});
+    _enumList.unshift({column: column(), constant: s, offset: o});
     return _enumList
   }
   / s:symbol white* o:conOffset?
   {
-    _enumList.unshift({symbol: s, offset: o});
+    _enumList.unshift({column: column(), symbol: s, offset: o});
     return _enumList
   }
 

@@ -43,12 +43,12 @@ module.exports = (function() {
             return true;
           },
         peg$c6 = function(c) {
-            _output.push({CON: c, ENUMERATIONS:null});
+            _output.push({line:line(), CON: c, ENUMERATIONS:null});
             _enumList = [ ];
           },
         peg$c7 = null,
         peg$c8 = function(c, al) {
-            _output.push({CON:c, ASSIGMENTS: _assignmentList});
+            _output.push({line:line(), CON:c, ASSIGMENTS: _assignmentList});
            _assignmentList = [];
           },
         peg$c9 = ",",
@@ -56,10 +56,10 @@ module.exports = (function() {
         peg$c11 = "=",
         peg$c12 = { type: "literal", value: "=", description: "\"=\"" },
         peg$c13 = function(s, ce) {
-            _assignmentList.push({symbol: s, expression:ce});
+            _assignmentList.push({column: column(), symbol: s, expression:ce});
           },
         peg$c14 = function(c, ce) {
-              _output.push({CON: c, ENUMERATIONS:ce});
+              _output.push({line:line(), CON: c, ENUMERATIONS:ce});
               _enumList = [ ];
           },
         peg$c15 = "#",
@@ -74,11 +74,11 @@ module.exports = (function() {
             return {enums:el};
           },
         peg$c20 = function(s, o) {
-            _enumList.unshift({constant: s, offset: o});
+            _enumList.unshift({column: column(), constant: s, offset: o});
             return _enumList
           },
         peg$c21 = function(s, o) {
-            _enumList.unshift({symbol: s, offset: o});
+            _enumList.unshift({column: column(), symbol: s, offset: o});
             return _enumList
           },
         peg$c22 = "[",
