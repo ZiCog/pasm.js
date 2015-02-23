@@ -13,13 +13,31 @@
  * Note:   Suspect syntax 3 is NOT redundant it is not just the tail of syntax 2
  *
  */
+{
+  _output = [];
+  _enumList = [ ];
+}
+
+
 start
-  = (conAssignments / conEnumerations)*  
+  = (CONAssignments / CONEnumerations)*
+  {
+    return _output;
+  }
+
+conCON
+  = c:"CON"
+  {
+    return true;
+  }
+
+CONAssignments
+  = c:conCON? conAssignments
 
 conAssignments
-  = conCON? white* constantAssignment white* "," white* conAssignmentList EOL 
-  / conCON? white* constantAssignment EOL
-  / conCON? white* EOL
+  = white* constantAssignment white* "," white* conAssignmentList EOL 
+  / white* constantAssignment EOL
+  / white* EOL
 
 conAssignmentList
   = constantAssignment white* "," white* conAssignmentList
@@ -28,25 +46,45 @@ conAssignmentList
 constantAssignment
   = symbol white* "=" white* constantExpression
 
-conEnumerations
-  = conCON? white* "#" white* constantExpression white* "," white* conEnumerationList EOL
-  / conCON? white* "#" white* constantExpression EOL
-  / conCON? white* conEnumerationList EOL
-  / conCON? white* EOL
+CONEnumerations
+  = c:"CON"? ce:conEnumerations
+  {
+      _output.push({CON: c, ENUMERATIONS:ce});
+      _enumList = [ ];
+  }
 
-conCON
- = "CON"
- {
-   return "Reset enumeration value here"
- }
+conEnumerations
+  = white* "#" white* ce:constantExpression white* "," white* el:conEnumerationList EOL
+  {
+    return {HASH: ce, enums:el};
+  }
+  / white* "#" white* ce:constantExpression EOL
+  {
+    return {HASH: ce};
+  }
+  / white* el:conEnumerationList EOL
+  {
+    return {enums:el};
+  }
+  / white* EOL
 
 
 conEnumerationList 
-  = s:symbol white* o:conOffset? white* "," white* sd:conEnumerationList
+  = s:symbol white* o:conOffset? white* "," white* conEnumerationList
+  {
+    _enumList.unshift({constant: s, offset: o});
+  }
   / s:symbol white* o:conOffset?
+  {
+    _enumList.unshift({symbol: s, offset: o});
+    return _enumList
+  }
 
 conOffset
   = "[" white* e:constantExpression white* "]"
+  {
+    return (e);
+  }
 
 constantExpression
   = d:[0-9]+
