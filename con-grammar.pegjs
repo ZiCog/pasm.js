@@ -73,6 +73,7 @@ conEnumerationList
   = s:symbol white* o:conOffset? white* "," white* conEnumerationList
   {
     _enumList.unshift({constant: s, offset: o});
+    return _enumList
   }
   / s:symbol white* o:conOffset?
   {
