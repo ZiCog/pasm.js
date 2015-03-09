@@ -1,0 +1,13 @@
+/*
+ * Code to preceed peg gramar rules.
+ *
+ */
+{
+  /* Used by con grammar */
+  _output = [];
+  _enumList = [ ];
+  _assignmentList = [];
+
+  function isKeyword (s) {return false}
+}
+

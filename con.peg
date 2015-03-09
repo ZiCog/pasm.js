@@ -13,11 +13,6 @@
  * Note:   Suspect syntax 3 is NOT redundant it is not just the tail of syntax 2
  *
  */
-{
-  _output = [];
-  _enumList = [ ];
-  _assignmentList = [];
-}
 
 start
   = (CONBlank / CONAssignments / CONEnumerations  / (white* EOL))*

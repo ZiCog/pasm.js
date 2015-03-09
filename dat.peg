@@ -6,13 +6,6 @@
  *
  */
 
-{
-  function isKeyword (s) {return false}
-}
-
-start
-  = program
-
 program
   = lines
 
