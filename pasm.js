@@ -23,46 +23,15 @@ function loadGrammar() {
     return grammar;
 }
 
-var grammar = loadGrammar();
-
-// Create parser
-var parser = PEG.buildParser(grammar, {
-    cache: true,
-    allowedStartRules: ["start", "program"]
-});
-
-// Read test data  
-var source = fs.readFileSync('con.spin', 'utf-8');
-
-// Do a test
-var ast;
-
-try {
-    ast = parser.parse(source, {
-        startRule: "start"
-    });
-    console.log("Parse OK");
-    console.log(JSON.stringify(ast, null, '  '));
-    //assert.deepEqual( parse("x==1\n"), ["a", "b", "c"] );
-} catch (e) {
-    console.log("Ooops...syntax error");
-    console.log(e.message);
-    console.log("    Offset:  " + e.offset);
-    console.log("    Line:    " + e.line);
-    console.log("    Column:  " + e.column);
-    // console.log("    Expected:" + e.expected);
-    console.log("    Found:   " + e.found);
-}
-
-function testParser(s) {
-    var j;
+function testParser(parser, source, rule) {
+    var ast;
     try {
-        j = parser.parse(s, {
-            startRule: "program"
+        ast = parser.parse(source, {
+            startRule: rule
         });
         console.log("Parse OK");
-        console.log(typeof j);
-        console.log(JSON.stringify(j, null, '  '));
+        console.log(JSON.stringify(ast, null, '  '));
+        //assert.deepEqual( parse("x==1\n"), ["a", "b", "c"] );
     } catch (e) {
         console.log("Ooops...syntax error");
         console.log(e.message);
@@ -74,9 +43,25 @@ function testParser(s) {
     }
 }
 
-fs.readFile("dat.spin", {encoding: "utf8"}, function (err, data) {
-    if (err) {
-        throw err;
-    }
-    testParser(data);
+var grammar = loadGrammar();
+
+// Create parser
+var parser = PEG.buildParser(grammar, {
+    cache: true,
+    allowedStartRules: ["start", "program"]
 });
+
+var tests = [
+        {sourceFile: "con.spin", rule: "start"},
+        {sourceFile: "dat.spin", rule: "program"}
+    ];
+tests.map(function (test) {
+    var source;
+    source = fs.readFileSync(test.sourceFile, 'utf-8');
+    testParser(parser, source, test.rule);
+});
+
+
+
+
+
